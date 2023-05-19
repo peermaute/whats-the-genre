@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   try {
     const { query, type } = req.query;
-    const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=5`;
+    const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=3`;
     const token = await getAccessToken();
     const response = await fetch(url, {
       headers: {

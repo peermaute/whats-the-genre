@@ -63,7 +63,7 @@ const SearchBar = ({ handleOnSelect }) => {
       debounceWait={250}
       minQueryLength={2}
       listboxIsImmutable={true}
-      maxItems={3}
+      maxItems={5}
       noItemsMessage="No results found matching your search"
       placeholder="Search for a song"
       listbox={listbox}

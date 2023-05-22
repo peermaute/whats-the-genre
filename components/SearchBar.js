@@ -57,9 +57,10 @@ const SearchBar = ({ handleOnSelect }) => {
     <TurnStone
       id="search"
       name="search"
-      autoFocus={true}
+      autoFocus={false}
       typeahead={true}
       clearButton={true}
+      debounceWait={250}
       minQueryLength={2}
       listboxIsImmutable={true}
       maxItems={5}

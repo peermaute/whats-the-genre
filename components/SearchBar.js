@@ -31,8 +31,8 @@ const SearchBar = ({ handleOnSelect }) => {
         const res = await search(query, "track");
         return res;
       } catch (error) {
-        console.error(error);
-        return [];
+        console.log(error); 
+        throw new Error("Failed to fetch search results");
       }
     },
     searchType: "contains",
@@ -60,11 +60,12 @@ const SearchBar = ({ handleOnSelect }) => {
       autoFocus={true}
       typeahead={true}
       clearButton={true}
-      debounceWait={50}
+      debounceWait={150}
       minQueryLength={2}
       listboxIsImmutable={true}
       maxItems={5}
       noItemsMessage="No results found matching your search"
+      errorMessage="Something went wrong"
       placeholder="Search for a song"
       listbox={listbox}
       styles={styles}

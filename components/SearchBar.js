@@ -26,14 +26,8 @@ const styles = {
 const SearchBar = ({ handleOnSelect }) => {
   const listbox = {
     displayField: "name",
-    data: async (query) => {
-      try {
-        const res = await search(query, "track");
-        return res;
-      } catch (error) {
-        console.log(error); 
-        throw new Error("Failed to fetch search results");
-      }
+    data: async () => {
+      return ["Test1", "Test2", "Test3"];
     },
     searchType: "contains",
   };

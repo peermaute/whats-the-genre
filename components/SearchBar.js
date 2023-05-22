@@ -60,7 +60,6 @@ const SearchBar = ({ handleOnSelect }) => {
       autoFocus={true}
       typeahead={true}
       clearButton={true}
-      debounceWait={250}
       minQueryLength={2}
       listboxIsImmutable={true}
       maxItems={5}

@@ -51,6 +51,7 @@ const SearchBar = ({ handleOnSelect }) => {
     <TurnStone
       listbox={listbox}
       styles={styles}
+      autoFocus={true}
     />
   );
 };

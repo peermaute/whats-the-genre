@@ -49,22 +49,8 @@ const SearchBar = ({ handleOnSelect }) => {
 
   return (
     <TurnStone
-      id="search"
-      name="search"
-      autoFocus={true}
-      typeahead={true}
-      clearButton={true}
-      debounceWait={150}
-      minQueryLength={2}
-      listboxIsImmutable={true}
-      maxItems={5}
-      noItemsMessage="No results found matching your search"
-      errorMessage="Something went wrong"
-      placeholder="Search for a song"
       listbox={listbox}
       styles={styles}
-      Item={Item}
-      onSelect={(item) => handleOnSelect(item)}
     />
   );
 };

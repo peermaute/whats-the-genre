@@ -2,10 +2,10 @@ export async function search(query, type) {
   try{
     const url = `/api/search?query=${query}&type=${type}`;
     const response = await fetch(url);
-    const data = await response.json();
     if(!response.ok){
       throw new Error(data.message);
     }
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);
@@ -17,10 +17,10 @@ export async function getArtist(artistId) {
   try{
     const url = `/api/artist?artistId=${artistId}`;
     const response = await fetch(url);
-    const data = await response.json();
     if(!response.ok){
       throw new Error(data.message);
     }
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);

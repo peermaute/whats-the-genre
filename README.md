@@ -1,6 +1,6 @@
 # What's The Genre?
 
-This webapp can find the genre for any given song. Check out [whats-the-genre.com](https://whats-the-genre.com)!
+This webapp can find the genre for any given song. Check out [whats-the-genre.com](https://whats-the-genre.com)
 
 ## Tech Stack
 
@@ -10,7 +10,7 @@ This webapp can find the genre for any given song. Check out [whats-the-genre.co
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 

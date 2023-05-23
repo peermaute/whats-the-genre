@@ -1,59 +1,63 @@
-import TurnStone from "turnstone";
+import React, { useState, useCallback } from "react";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import { search } from "@/pages/api/_spotifyApi";
+import Box from "@mui/material/Box";
 
-// Tailwind classes for Turnstone elements
-const styles = {
-  input:
-    "w-full h-12 border border-oldsilver-300 py-2 pl-10 pr-7 text-xl outline-none rounded",
-  inputFocus:
-    "w-full h-12 border-x-0 border-t-0 border-b border-crystal-500 py-2 pl-10 pr-7 text-xl outline-none sm:rounded sm:border",
-  query: "text-oldsilver-800 placeholder-oldsilver-400",
-  cancelButton: `absolute w-10 h-12 inset-y-0 left-0 items-center justify-center z-10 text-crystal-600 inline-flex sm:hidden`,
-  clearButton:
-    "absolute inset-y-0 right-0 w-8 inline-flex items-center justify-center text-crystal-500 hover:text-hotpink-300",
-  typeahead: "text-slate-500",
-  listbox:
-    "w-full bg-white sm:border sm:border-crystal-500 sm:rounded text-left sm:mt-2 p-2 sm:drop-shadow-xl",
-  groupHeading:
-    "cursor-default mt-2 mb-0.5 px-1.5 uppercase text-sm text-hotpink-300",
-  item: "cursor-pointer p-1.5 text-lg overflow-ellipsis overflow-hidden text-oldsilver-700",
-  highlightedItem:
-    "cursor-pointer p-1.5 text-lg overflow-ellipsis overflow-hidden text-oldsilver-700 rounded bg-crystal-100",
-  match: "font-semibold",
-  noItems: "cursor-default text-center my-20",
-};
+function SearchBar({handleOnSelect, setError}) {
+  const [options, setOptions] = useState([]);
 
-const SearchBar = ({ handleOnSelect }) => {
-  const listbox = {
-    displayField: "name",
-    data: async () => {
-      return ["Test1", "Test2", "Test3"];
-    },
-    searchType: "contains",
-  };
+  const handleInputChange = useCallback(async (event) => {
+    if (!event.target.value || event.target.value.length < 3) return setOptions([]);
+    try {
+      console.log(event.target.value);
+      const res = await search(event.target.value, "track");
+      console.log(res);
+      setOptions(res);
+      setError(null);
+    } catch (error) {
+      console.log(error);
+      throw new Error("Failed to fetch search results");
+    }
+  }, [setError]);
 
-  const Item = ({ item }) => {
+  const handleRenderInput = (props, option) => {
     return (
-      <div className="flex items-center cursor-pointer px-5 py-4">
+      <Box
+        component="li"
+        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+        {...props}
+      >
         <img
-          width={35}
-          height={35}
-          src={item.album.images[0].url}
-          alt={item.name}
-          className="rounded-full object-cover mr-3"
+          loading="lazy"
+          width="20"
+          src={option.album.images[0].url}
+          alt={option.name}
         />
-        <p>{`${item.name} - ${item.artists[0].name}`}</p>
-      </div>
+        {option.name + ' - ' +  option.artists[0].name}
+      </Box>
     );
   };
 
   return (
-    <TurnStone
-      listbox={listbox}
-      styles={styles}
-      autoFocus={true}
+    <Autocomplete
+      className="w-1/2"
+      options={options}
+      getOptionLabel={(option) => option.name}
+      filterOptions={(options) => options}
+      onInputChange={handleInputChange}
+      renderInput={(params) => (
+        <TextField {...params} label="Search for a song" variant="outlined" />
+      )}
+      renderOption={(props, option) => handleRenderInput(props, option)}
+      autoComplete
+      freeSolo
+      isOptionEqualToValue={(option, value) => 
+        option.name === value.name && option.artists[0].name === value.artists[0].name
+      }
+      onChange={(event, value) => handleOnSelect(value)}
     />
   );
-};
+}
 
 export default SearchBar;

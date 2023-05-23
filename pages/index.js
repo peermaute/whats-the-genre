@@ -14,7 +14,7 @@ export default function Home() {
   const [error, setError] = useState(null);
 
   const handleOnSelect = async (item) => {
-    if(!item) return;
+    if(!item || typeof item === 'string') return;
     try {
       const genre = await getGenreOfArtist(item.artists[0].id);
       setGenre(genre);

@@ -4,22 +4,25 @@ import TextField from "@mui/material/TextField";
 import { search } from "@/pages/api/_spotifyApi";
 import Box from "@mui/material/Box";
 
-function SearchBar({handleOnSelect, setError}) {
+function SearchBar({ handleOnSelect, setError }) {
   const [options, setOptions] = useState([]);
 
-  const handleInputChange = useCallback(async (event) => {
-    if (!event.target.value || event.target.value.length < 3) return setOptions([]);
-    try {
-      console.log(event.target.value);
-      const res = await search(event.target.value, "track");
-      console.log(res);
-      setOptions(res);
-      setError(null);
-    } catch (error) {
-      console.log(error);
-      throw new Error("Failed to fetch search results");
-    }
-  }, [setError]);
+  const handleInputChange = useCallback(
+    async (event) => {
+      if (!event.target.value || event.target.value.length < 3)
+        return setOptions([]);
+      try {
+        const res = await search(event.target.value, "track");
+        if (!res || res.length < 0) return setOptions([]);
+        setOptions(res);
+        setError(null);
+      } catch (error) {
+        console.log(error);
+        throw new Error("Failed to fetch search results");
+      }
+    },
+    [setError]
+  );
 
   const handleRenderInput = (props, option) => {
     return (
@@ -34,7 +37,7 @@ function SearchBar({handleOnSelect, setError}) {
           src={option.album.images[0].url}
           alt={option.name}
         />
-        {option.name + ' - ' +  option.artists[0].name}
+        {option.name + " - " + option.artists[0].name}
       </Box>
     );
   };
@@ -43,7 +46,15 @@ function SearchBar({handleOnSelect, setError}) {
     <Autocomplete
       className="w-1/2"
       options={options}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option) => {
+        if (option && typeof option === "object") {
+          return option.name
+        }
+        if(typeof option === 'string'){
+          return option
+        }
+        return ""
+      }}
       filterOptions={(options) => options}
       onInputChange={handleInputChange}
       renderInput={(params) => (
@@ -52,8 +63,9 @@ function SearchBar({handleOnSelect, setError}) {
       renderOption={(props, option) => handleRenderInput(props, option)}
       autoComplete
       freeSolo
-      isOptionEqualToValue={(option, value) => 
-        option.name === value.name && option.artists[0].name === value.artists[0].name
+      isOptionEqualToValue={(option, value) =>
+        option.name === value.name &&
+        option.artists[0].name === value.artists[0].name
       }
       onChange={(event, value) => handleOnSelect(value)}
     />

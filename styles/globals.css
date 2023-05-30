@@ -1,6 +1,7 @@
 :root {
   font-family: 'Mandali-Regular';
 }
+
 @font-face {
   font-family: 'Mandali-Regular';
   src: local('Mandali-Regular'), url(./fonts/Mandali-Regular.woff) format('woff');

@@ -44,7 +44,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear }) {
 
   return (
     <Autocomplete
-      className="w-1/2"
+      className="w-10/12"
       options={options}
       getOptionLabel={(option) => {
         if (option && typeof option === "object") {

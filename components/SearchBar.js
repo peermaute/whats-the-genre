@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { search } from "@/pages/api/_spotifyApi";
 import Box from "@mui/material/Box";
 
-function SearchBar({ handleOnSelect, setError }) {
+function SearchBar({ handleOnSelect, setError, handleOnClear }) {
   const [options, setOptions] = useState([]);
 
   const handleInputChange = useCallback(
@@ -48,17 +48,17 @@ function SearchBar({ handleOnSelect, setError }) {
       options={options}
       getOptionLabel={(option) => {
         if (option && typeof option === "object") {
-          return option.name
+          return option.name;
         }
-        if(typeof option === 'string'){
-          return option
+        if (typeof option === "string") {
+          return option;
         }
-        return ""
+        return "";
       }}
       filterOptions={(options) => options}
       onInputChange={handleInputChange}
       renderInput={(params) => (
-        <TextField {...params} label="Search for a song" variant="outlined" />
+        <TextField {...params} label="Search for a song" variant="outlined" className=""/>
       )}
       renderOption={(props, option) => handleRenderInput(props, option)}
       autoComplete
@@ -67,7 +67,11 @@ function SearchBar({ handleOnSelect, setError }) {
         option.name === value.name &&
         option.artists[0].name === value.artists[0].name
       }
-      onChange={(event, value) => handleOnSelect(value)}
+      onChange={(event, value, reason) => {
+        handleOnSelect(value);
+        if (reason === "clear") handleOnClear();
+      }}
+      onClear={() => handleOnClear()}
     />
   );
 }

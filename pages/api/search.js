@@ -9,15 +9,13 @@ export default async function handler(req, res) {
       },
     });
     const data = await response.json();
-    if(type === 'artist'){
-      res.json(data.artists.items);
+    if (type === "artist") {
+      return res.json(data.artists.items);
     }
-    if(type === 'track'){
-      res.json(data.tracks.items);
+    if (type === "track") {
+      return res.json(data.tracks.items);
     }
-    else{
-      res.json(data);
-    }
+    return res.json(data);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

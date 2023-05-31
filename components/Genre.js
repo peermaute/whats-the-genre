@@ -1,6 +1,6 @@
 const Genre = ({ genre }) => {
   return (
-    <div className="pt-10">
+    <div className="pt-10 text-center">
       <h1 className="text-xl font-bold">Genre: {toTitleCase(genre)}</h1>
     </div>
   );

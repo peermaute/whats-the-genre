@@ -1,27 +1,32 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { search } from "@/pages/api/_spotifyApi";
 import Box from "@mui/material/Box";
 
-function SearchBar({ handleOnSelect, setError, handleOnClear }) {
+function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
   const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    setOptions([]);
+  }, [isSong]);
 
   const handleInputChange = useCallback(
     async (event) => {
       if (!event.target.value || event.target.value.length < 3)
         return setOptions([]);
       try {
-        const res = await search(event.target.value, "track");
+        const searchString = isSong ?  "track" : "artist"
+        const res = await search(event.target.value, searchString);
         if (!res || res.length < 0) return setOptions([]);
         setOptions(res);
         setError(null);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Failed to fetch search results");
       }
     },
-    [setError]
+    [setError, isSong]
   );
 
   const handleRenderInput = (props, option) => {
@@ -34,17 +39,16 @@ function SearchBar({ handleOnSelect, setError, handleOnClear }) {
         <img
           loading="lazy"
           width="20"
-          src={option.album.images[0].url}
+          src={isSong? option.album.images[0].url : option.images[0].url}
           alt={option.name}
         />
-        {option.name + " - " + option.artists[0].name}
+        {isSong? option.name + " - " + option.artists[0].name : option.name}
       </Box>
     );
   };
 
   return (
     <Autocomplete
-      className="w-10/12"
       options={options}
       getOptionLabel={(option) => {
         if (option && typeof option === "object") {
@@ -58,7 +62,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear }) {
       filterOptions={(options) => options}
       onInputChange={handleInputChange}
       renderInput={(params) => (
-        <TextField {...params} label="Search for a song" variant="outlined" className=""/>
+        <TextField {...params} label={isSong ? "Search for a song" : "Search for an artist"} variant="outlined" className=""/>
       )}
       renderOption={(props, option) => handleRenderInput(props, option)}
       autoComplete
@@ -71,7 +75,6 @@ function SearchBar({ handleOnSelect, setError, handleOnClear }) {
         handleOnSelect(value);
         if (reason === "clear") handleOnClear();
       }}
-      onClear={() => handleOnClear()}
     />
   );
 }

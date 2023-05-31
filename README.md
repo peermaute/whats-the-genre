@@ -1,6 +1,6 @@
 # What's The Genre?
 
-This webapp can find the genre for any given song. Check out [whats-the-genre.com](https://whats-the-genre.com)
+This webapp can find the genre for any given song or artist. Check out [whats-the-genre.com](https://whats-the-genre.com)
 
 ## Tech Stack
 

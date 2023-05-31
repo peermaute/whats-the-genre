@@ -62,7 +62,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       filterOptions={(options) => options}
       onInputChange={handleInputChange}
       renderInput={(params) => (
-        <TextField {...params} label={isSong ? "Search for a song" : "Search for an artist"} variant="outlined" className=""/>
+        <TextField {...params} label={isSong ? "Search for a song" : "Search for an artist"} variant="outlined" color="grey"/>
       )}
       renderOption={(props, option) => handleRenderInput(props, option)}
       autoComplete

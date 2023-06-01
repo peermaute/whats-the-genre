@@ -31,6 +31,15 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
     [setError, isSong]
   );
 
+  const getImageUrl = (option) => {
+    if (isSong) {
+      return option.album.images.length > 0 ? option.album.images[0].url : null;
+    } else {
+      return option.images.length > 0 ? option.images[0].url : null;
+    }
+  };
+    
+
   const handleRenderInput = (props, option) => {
     return (
       <Box
@@ -38,10 +47,12 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
         sx={{ "& > img": { mr: 2, flexShrink: 0 }, borderRadius: 2 }}
         {...props}
       >
+        {console.log(option)}
+        {console.log("isSong" ,isSong)}
         <img
           loading="lazy"
           width="20"
-          src={isSong ? option.album.images[0].url : option.images[0].url}
+          src={getImageUrl(option)}
           alt={option.name}
         />
         {isSong ? option.name + " - " + option.artists[0].name : option.name}

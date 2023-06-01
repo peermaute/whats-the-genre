@@ -6,9 +6,11 @@ import Box from "@mui/material/Box";
 
 function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
   const [options, setOptions] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     setOptions([]);
+    setInputValue("");
   }, [isSong]);
 
   const handleInputChange = useCallback(
@@ -33,7 +35,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
     return (
       <Box
         component="li"
-        sx={{ "& > img": { mr: 2, flexShrink: 0 },  borderRadius: 2}}
+        sx={{ "& > img": { mr: 2, flexShrink: 0 }, borderRadius: 2 }}
         {...props}
       >
         <img
@@ -50,7 +52,15 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
   return (
     <Autocomplete
       options={options}
-      sx={{ boxShadow: 1, backgroundColor: "white", pl:1.5, pr:1.5, pt: 1, pb:2, borderRadius: 2 }}
+      sx={{
+        boxShadow: 1,
+        backgroundColor: "white",
+        pl: 1.5,
+        pr: 1.5,
+        pt: 1,
+        pb: 2,
+        borderRadius: 2,
+      }}
       getOptionLabel={(option) => {
         if (option && typeof option === "object") {
           return option.name;
@@ -65,7 +75,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          
+          value={inputValue}
           label={isSong ? "Search for a song" : "Search for an artist"}
           variant="standard"
           color="grey"
@@ -74,10 +84,13 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       renderOption={(props, option) => handleRenderInput(props, option)}
       autoComplete
       freeSolo
-      isOptionEqualToValue={(option, value) =>
-        option.name === value.name &&
-        option.artists[0].name === value.artists[0].name
-      }
+      isOptionEqualToValue={(option, value) => {
+        if (!value) return false;
+        return (
+          option.name === value.name &&
+          option.artists[0].name === value.artists[0].name
+        );
+      }}
       onChange={(event, value, reason) => {
         handleOnSelect(value);
         if (reason === "clear") handleOnClear();

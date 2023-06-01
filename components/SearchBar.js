@@ -47,8 +47,6 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
         sx={{ "& > img": { mr: 2, flexShrink: 0 }, borderRadius: 2 }}
         {...props}
       >
-        {console.log(option)}
-        {console.log("isSong" ,isSong)}
         <img
           loading="lazy"
           width="20"
@@ -97,7 +95,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       autoComplete
       freeSolo
       isOptionEqualToValue={(option, value) => {
-        if (!value) return false;
+        if (!value || !option || !option.artists || option.artists.length < 1 || option.artists.length < 1 || !option.artists[0].name) return false;
         return (
           option.name === value.name &&
           option.artists[0].name === value.artists[0].name

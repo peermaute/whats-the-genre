@@ -42,10 +42,14 @@ const Main = () => {
     setError(null);
   };
 
+  const searchStyle = {
+    marginTop: `calc(50vh - ${heightOffSet}px)`,
+  };
+
   return (
     <main className="sm:w-4/5 w-96 max-w-3xl flex flex-col items-center justify-center">
       <div className="w-10/12">
-        <div style={{ marginTop: `calc(50vh - ${heightOffSet}px)` }}>
+        <div style={searchStyle}>
           <div className="flex flex-row-reverse">
             <SearchSwitch toggleIsSong={toggleIsSong} />
           </div>

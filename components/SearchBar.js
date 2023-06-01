@@ -75,6 +75,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       renderInput={(params) => (
         <TextField
           {...params}
+          autoFocus
           value={inputValue}
           label={isSong ? "Search for a song" : "Search for an artist"}
           variant="standard"

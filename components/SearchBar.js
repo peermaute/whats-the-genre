@@ -33,7 +33,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
     return (
       <Box
         component="li"
-        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+        sx={{ "& > img": { mr: 2, flexShrink: 0 },  borderRadius: 2}}
         {...props}
       >
         <img
@@ -50,7 +50,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
   return (
     <Autocomplete
       options={options}
-      sx={{ boxShadow: 2, backgroundColor: "white", pl:1.5, pr:1.5, pt: 1, pb:2, borderRadius: 2 }}
+      sx={{ boxShadow: 1, backgroundColor: "white", pl:1.5, pr:1.5, pt: 1, pb:2, borderRadius: 2 }}
       getOptionLabel={(option) => {
         if (option && typeof option === "object") {
           return option.name;

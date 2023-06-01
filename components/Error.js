@@ -1,8 +1,8 @@
+import Output from "./Output";
+
 const Error = ({ errorMsg }) => {
   return (
-    <div className="error">
-      <h1>{errorMsg}</h1>
-    </div>
+    <Output title="Error" text={errorMsg} />
   );
 }
 

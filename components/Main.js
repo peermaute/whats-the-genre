@@ -5,6 +5,10 @@ import Error from "@/components/Error";
 import Genre from "@/components/Genre";
 import SearchSwitch from "./SearchSwitch";
 
+const heightOfSwitch = 66;
+const heigtOfSearchBar = 72;
+const heightOffSet = heightOfSwitch + heigtOfSearchBar / 2;
+
 const Main = () => {
   const [genre, setGenre] = useState(null);
   const [error, setError] = useState(null);
@@ -20,10 +24,9 @@ const Main = () => {
     if (!item || typeof item === "string") return;
     try {
       let genre;
-      if(!isSong && item.type === "artist"){
+      if (!isSong && item.type === "artist") {
         genre = await getGenreOfArtist(item.id);
-      }
-      else{
+      } else {
         genre = await getGenreOfArtist(item.artists[0].id);
       }
       !genre || genre.length < 1 ? setGenre("Not Found :(") : setGenre(genre);
@@ -40,17 +43,19 @@ const Main = () => {
   };
 
   return (
-    <main className="sm:w-4/5 w-96 max-w-3xl flex justify-center flex-col items-center">
+    <main className="sm:w-4/5 w-96 max-w-3xl flex flex-col items-center justify-center">
       <div className="w-10/12">
-        <div className="flex flex-row-reverse">
-          <SearchSwitch toggleIsSong={toggleIsSong}/>
+        <div style={{ marginTop: `calc(50vh - ${heightOffSet}px)` }}>
+          <div className="flex flex-row-reverse">
+            <SearchSwitch toggleIsSong={toggleIsSong} />
+          </div>
+          <SearchBar
+            handleOnSelect={handleOnSelect}
+            setError={setError}
+            handleOnClear={handleOnClear}
+            isSong={isSong}
+          />
         </div>
-        <SearchBar
-          handleOnSelect={handleOnSelect}
-          setError={setError}
-          handleOnClear={handleOnClear}
-          isSong={isSong}
-        />
         {error && <Error errorMsg={error} />}
         {!error && genre && <Genre genre={genre} />}
       </div>

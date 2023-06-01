@@ -12,6 +12,8 @@ const Main = () => {
 
   const toggleIsSong = () => {
     setIsSong(!isSong);
+    setError(null);
+    setGenre(null);
   };
 
   const handleOnSelect = async (item) => {

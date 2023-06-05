@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { search } from "@/pages/api/_spotifyApi";
 import Box from "@mui/material/Box";
 
 function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
+  const inputRef = useRef(null);
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -12,6 +13,10 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
     setOptions([]);
     setInputValue("");
   }, [isSong]);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const handleInputChange = useCallback(
     async (event) => {
@@ -84,7 +89,7 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          autoFocus
+          inputRef={inputRef}
           value={inputValue}
           label={isSong ? "Search for a song" : "Search for an artist"}
           variant="standard"

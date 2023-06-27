@@ -48,7 +48,7 @@ const MaterialUISwitch = styled(Switch, {
 }));
 
 const SearchSwitch = ({ toggleIsSong }) => {
-  return <MaterialUISwitch sx={{ m: 2, mr: 0 }} onChange={toggleIsSong} />;
+  return <MaterialUISwitch sx={{ mt: 2}} onChange={toggleIsSong} />;
 };
 
 export default SearchSwitch;

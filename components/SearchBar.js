@@ -4,8 +4,13 @@ import TextField from "@mui/material/TextField";
 import { search } from "@/pages/api/_spotifyApi";
 import Box from "@mui/material/Box";
 
-function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
-  const inputRef = useRef(null);
+function SearchBar({
+  handleOnSelect,
+  setError,
+  handleOnClear,
+  isSong,
+  toggleSearchBarFocus,
+}) {
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -13,10 +18,6 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
     setOptions([]);
     setInputValue("");
   }, [isSong]);
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
 
   const handleInputChange = useCallback(
     async (event) => {
@@ -43,7 +44,6 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       return option.images.length > 0 ? option.images[0].url : null;
     }
   };
-    
 
   const handleRenderInput = (props, option) => {
     return (
@@ -89,18 +89,27 @@ function SearchBar({ handleOnSelect, setError, handleOnClear, isSong }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          inputRef={inputRef}
           value={inputValue}
-          label={isSong ? "Search for a song" : "Search for an artist"}
+          label={isSong ? "Search for a Song" : "Search for an Artist"}
           variant="standard"
           color="grey"
         />
       )}
+      onFocus={toggleSearchBarFocus}
+      onBlur={toggleSearchBarFocus}
       renderOption={(props, option) => handleRenderInput(props, option)}
       autoComplete
       freeSolo
       isOptionEqualToValue={(option, value) => {
-        if (!value || !option || !option.artists || option.artists.length < 1 || option.artists.length < 1 || !option.artists[0].name) return false;
+        if (
+          !value ||
+          !option ||
+          !option.artists ||
+          option.artists.length < 1 ||
+          option.artists.length < 1 ||
+          !option.artists[0].name
+        )
+          return false;
         return (
           option.name === value.name &&
           option.artists[0].name === value.artists[0].name

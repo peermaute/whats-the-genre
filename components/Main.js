@@ -3,6 +3,7 @@ import { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import Error from "@/components/Error";
 import Genre from "@/components/Genre";
+import Header from "@/components/Header";
 import SearchSwitch from "./SearchSwitch";
 
 const heightOfSwitch = 66;
@@ -13,6 +14,7 @@ const Main = () => {
   const [genre, setGenre] = useState(null);
   const [error, setError] = useState(null);
   const [isSong, setIsSong] = useState(true);
+  const [searchBarIsFocused, setSearchBarIsFocused] = useState(false);
 
   const toggleIsSong = () => {
     setIsSong(!isSong);
@@ -42,23 +44,32 @@ const Main = () => {
     setError(null);
   };
 
+  const toggleSearchBarFocus = () => {
+    setSearchBarIsFocused(!searchBarIsFocused);
+  };
+
   const searchStyle = {
-    marginTop: `calc(50vh - ${heightOffSet}px)`,
+    marginTop: searchBarIsFocused ? "40px" : `calc(50vh - ${heightOffSet}px)`,
+    transition: "margin-top 0.1s ease-in-out",
   };
 
   return (
     <main className="sm:w-4/5 w-96 max-w-3xl flex flex-col items-center justify-center">
       <div className="w-10/12">
         <div style={searchStyle}>
-          <div className="flex flex-row-reverse">
-            <SearchSwitch toggleIsSong={toggleIsSong} />
+          <div className={searchBarIsFocused ? "hidden" : ""}> 
+            <Header />
           </div>
           <SearchBar
             handleOnSelect={handleOnSelect}
             setError={setError}
             handleOnClear={handleOnClear}
             isSong={isSong}
+            toggleSearchBarFocus={toggleSearchBarFocus}
           />
+          <div className={searchBarIsFocused ? "hidden" : "flex justify-center items-center"}>
+            <SearchSwitch toggleIsSong={toggleIsSong} />
+          </div>
         </div>
         {error && <Error errorMsg={error} />}
         {!error && genre && <Genre genre={genre} />}
